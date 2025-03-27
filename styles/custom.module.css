@@ -1,0 +1,42 @@
+.customInput {
+  background-color: var(--custom-input-bg, #eef2f8);
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.containerSm,
+.listItem {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.listItem {
+  background-color: var(--list-item-bg, #eef2f8);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.listItem:hover {
+  background-color: var(--list-item-hover-bg, #dde4ed);
+  transform: translateY(-2px);
+  border-color: var(--list-item-border, rgba(0, 0, 0, 0.1));
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] .customInput {
+  background-color: var(--custom-input-bg-dark, #2d3748);
+}
+
+[data-theme="dark"] .listItem {
+  background-color: var(--list-item-bg-dark, #2d3748);
+  border-color: var(--list-item-border-dark, rgba(255, 255, 255, 0.1));
+}
+
+[data-theme="dark"] .listItem:hover {
+  background-color: var(--list-item-hover-bg-dark, #3a4a63);
+  border-color: var(--list-item-border-hover-dark, rgba(255, 255, 255, 0.2));
+}
