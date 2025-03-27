@@ -1,13 +1,13 @@
 // TODO fix type issues
 // @ts-nocheck
 
-import { Dispatch, SetStateAction, useState } from 'react';
-import { Box, NumberField, SelectButton, Text } from '@interchain-ui/react';
+import { Dispatch, SetStateAction, useState } from "react";
+import { Box, NumberField, SelectButton, Text } from "@interchain-ui/react";
 
-import { useValidators } from '@/hooks';
-import { Permission, PermissionId } from '@/configs';
-import { SelectValidatorsModal } from './SelectValidatorsModal';
-import { AccessList } from './GrantModal';
+import { useValidators } from "@/hooks";
+import { Permission, PermissionId } from "@/configs";
+import { SelectValidatorsModal } from "./SelectValidatorsModal";
+import { AccessList } from "./GrantModal";
 
 // ==============================================
 
@@ -77,7 +77,7 @@ const DelegateCustomization = ({
         onClick={() => setIsOpen(true)}
       />
       <Box
-        display={validatorNames.length > 0 ? 'block' : 'none'}
+        display={validatorNames.length > 0 ? "block" : "none"}
         mt="$2"
         px="$2"
       >
@@ -86,13 +86,13 @@ const DelegateCustomization = ({
             as="span"
             fontWeight="$semibold"
             color={
-              accessList.type === 'allowList' ? '$textSuccess' : '$textDanger'
+              accessList.type === "allowList" ? "$textSuccess" : "$textDanger"
             }
           >
-            {accessList.type === 'allowList' ? 'Allow List' : 'Deny List'}
+            {accessList.type === "allowList" ? "Allow List" : "Deny List"}
             :&nbsp;
           </Text>
-          {validatorNames.join(', ')}
+          {validatorNames.join(", ")}
         </Text>
       </Box>
       <SelectValidatorsModal
@@ -110,10 +110,10 @@ const DelegateCustomization = ({
 
 type CustomizationFieldProps =
   | ({
-      permissionType: typeof Permission['Send'];
+      permissionType: (typeof Permission)["Send"];
     } & SendCustomizationProps)
   | ({
-      permissionType: typeof Permission['Delegate'];
+      permissionType: (typeof Permission)["Delegate"];
     } & DelegateCustomizationProps);
 
 export const CustomizationField = ({
@@ -122,11 +122,11 @@ export const CustomizationField = ({
 }: CustomizationFieldProps): JSX.Element | null => {
   const fields: Partial<Record<PermissionId, JSX.Element | null>> = {
     send:
-      permissionType === 'send' ? (
+      permissionType === "send" ? (
         <SendCustomization {...(rest as SendCustomizationProps)} />
       ) : null,
     delegate:
-      permissionType === 'delegate' ? (
+      permissionType === "delegate" ? (
         <DelegateCustomization {...(rest as DelegateCustomizationProps)} />
       ) : null,
   };

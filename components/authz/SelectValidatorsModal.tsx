@@ -1,7 +1,7 @@
 // TODO fix type issues
 // @ts-nocheck
 
-import { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import {
   BasicModal,
   Box,
@@ -14,11 +14,11 @@ import {
   Text,
   ValidatorList,
   ValidatorNameCell,
-} from '@interchain-ui/react';
+} from "@interchain-ui/react";
 
-import { useValidators } from '@/hooks';
-import { ExtendedValidator as Validator } from '@/utils';
-import { AccessList } from './GrantModal';
+import { useValidators } from "@/hooks";
+import { ExtendedValidator as Validator } from "@/utils";
+import { AccessList } from "./GrantModal";
 
 type SelectValidatorsModalProps = {
   isOpen: boolean;
@@ -28,7 +28,7 @@ type SelectValidatorsModalProps = {
   setAccessList: Dispatch<SetStateAction<AccessList>>;
 };
 
-type ListType = 'allowList' | 'denyList';
+type ListType = "allowList" | "denyList";
 
 export const SelectValidatorsModal = ({
   isOpen,
@@ -43,10 +43,10 @@ export const SelectValidatorsModal = ({
   const columns: GridColumn[] = useMemo(() => {
     return [
       {
-        id: 'validator',
-        label: 'Validator',
-        width: '196px',
-        align: 'left',
+        id: "validator",
+        label: "Validator",
+        width: "196px",
+        align: "left",
         render: (validator: Validator) => (
           <ValidatorNameCell
             validatorName={validator.name}
@@ -55,9 +55,9 @@ export const SelectValidatorsModal = ({
         ),
       },
       {
-        id: 'action',
-        width: '126px',
-        align: 'right',
+        id: "action",
+        width: "126px",
+        align: "right",
         render: (validator: Validator) => (
           <Box
             display="flex"
@@ -69,7 +69,7 @@ export const SelectValidatorsModal = ({
             {accessList.addresses.includes(validator.address) ? (
               <Button
                 size="sm"
-                intent={listType === 'allowList' ? 'success' : 'danger'}
+                intent={listType === "allowList" ? "success" : "danger"}
                 onClick={() => {
                   setAccessList((prev) => ({
                     ...prev,
@@ -81,7 +81,7 @@ export const SelectValidatorsModal = ({
                 rightIcon="close"
                 iconSize="$xl"
               >
-                {listType === 'allowList' ? 'Allowed' : 'Denied'}
+                {listType === "allowList" ? "Allowed" : "Denied"}
               </Button>
             ) : (
               <>
@@ -95,7 +95,7 @@ export const SelectValidatorsModal = ({
                     }));
                   }}
                 >
-                  {listType === 'allowList' ? 'Allow' : 'Deny'}
+                  {listType === "allowList" ? "Allow" : "Deny"}
                 </Button>
               </>
             )}
@@ -108,7 +108,7 @@ export const SelectValidatorsModal = ({
   return (
     <BasicModal title="Select Validators" isOpen={isOpen} onClose={onClose}>
       <Box
-        width={{ mobile: '100%', tablet: '$containerSm' }}
+        width={{ mobile: "100%", tablet: "$containerSm" }}
         display="flex"
         justifyContent="center"
         alignItems="center"
@@ -150,7 +150,7 @@ export const SelectValidatorsModal = ({
               data={data}
               columns={columns}
               variant="ghost"
-              tableProps={{ width: '$full' }}
+              tableProps={{ width: "$full" }}
             />
           </Box>
         ) : (

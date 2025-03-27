@@ -1,8 +1,8 @@
 // TODO fix type issues
 // @ts-nocheck
 
-import { useState } from 'react';
-import { ChainName } from 'cosmos-kit';
+import { useState } from "react";
+import { ChainName } from "cosmos-kit";
 import {
   BasicModal,
   Box,
@@ -15,29 +15,29 @@ import {
   ListItem,
   Stack,
   FieldLabel,
-} from '@interchain-ui/react';
-import { coin } from '@cosmjs/amino';
-import { useChain } from '@cosmos-kit/react';
-import { IoMdCalendar } from 'react-icons/io';
-import Calendar from 'react-calendar';
-import dayjs from 'dayjs';
+} from "@interchain-ui/react";
+import { coin } from "@cosmjs/amino";
+import { useChain } from "@cosmos-kit/react";
+import { IoMdCalendar } from "react-icons/io";
+import Calendar from "react-calendar";
+import dayjs from "dayjs";
 
 import {
   getExponent,
   PermissionId,
   PermissionItem,
   permissions,
-} from '@/configs';
-import { AuthorizationType } from '@/src/codegen/cosmos/staking/v1beta1/authz';
-import { GrantMsg, useAuthzTx, useGrants } from '@/hooks';
-import { getTokenByChainName, shiftDigits } from '@/utils';
-import { CustomizationField } from './CustomizationField';
-import { AddressInput } from '@/components';
+} from "@/configs";
+import { AuthorizationType } from "@/src/codegen/cosmos/staking/v1beta1/authz";
+import { GrantMsg, useAuthzTx, useGrants } from "@/hooks";
+import { getTokenByChainName, shiftDigits } from "@/utils";
+import { CustomizationField } from "./CustomizationField";
+import { AddressInput } from "@/components";
 
-import styles from '@/styles/custom.module.css';
+import styles from "@/styles/custom.module.css";
 
 export type AccessList = {
-  type: 'allowList' | 'denyList';
+  type: "allowList" | "denyList";
   addresses: string[];
 };
 
@@ -51,8 +51,8 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
-  const [granteeAddress, setGranteeAddress] = useState('');
-  const [addressErrorMsg, setAddressErrorMsg] = useState('');
+  const [granteeAddress, setGranteeAddress] = useState("");
+  const [addressErrorMsg, setAddressErrorMsg] = useState("");
   const [expiryDate, setExpiryDate] = useState<Date | null>(null);
   const [selectedPermission, setSelectedPermission] =
     useState<PermissionItem | null>(null);
@@ -62,7 +62,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
     undefined
   );
   const [accessList, setAccessList] = useState<AccessList>({
-    type: 'allowList',
+    type: "allowList",
     addresses: [],
   });
 
@@ -77,13 +77,13 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
   const denom = token.base;
 
   const onModalClose = () => {
-    setGranteeAddress('');
+    setGranteeAddress("");
     setExpiryDate(null);
     setSelectedPermission(null);
     setSendLimit(undefined);
     setDelegateLimit(undefined);
     setIsGranting(false);
-    setAccessList({ type: 'allowList', addresses: [] });
+    setAccessList({ type: "allowList", addresses: [] });
     onClose();
   };
 
@@ -94,7 +94,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
     setIsGranting(true);
 
     const sendMsg: GrantMsg = {
-      grantType: 'send',
+      grantType: "send",
       customize: sendLimit
         ? {
             spendLimit: [coin(shiftDigits(sendLimit, exponent), denom)],
@@ -103,7 +103,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
     };
 
     const delegateMsg: GrantMsg = {
-      grantType: 'delegate',
+      grantType: "delegate",
       customize:
         delegateLimit || accessList.addresses.length > 0
           ? {
@@ -117,8 +117,8 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
     const grantMsg: Record<PermissionId, GrantMsg> = {
       send: sendMsg,
       delegate: delegateMsg,
-      vote: { grantType: 'vote' },
-      'claim-rewards': { grantType: 'claim-rewards' },
+      vote: { grantType: "vote" },
+      "claim-rewards": { grantType: "claim-rewards" },
     };
 
     const msg = createGrantMsg({
@@ -148,7 +148,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
       closeOnClickaway={false}
     >
       <Box
-        width={{ mobile: '100%', tablet: '$containerSm' }}
+        width={{ mobile: "100%", tablet: "$containerSm" }}
         display="flex"
         flexDirection="column"
         gap="$9"
@@ -164,7 +164,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
         />
 
         <Box>
-          <FieldLabel htmlFor="" label="Permission" attributes={{ mb: '$4' }} />
+          <FieldLabel htmlFor="" label="Permission" attributes={{ mb: "$4" }} />
 
           <Box display="flex" flexDirection="column" gap="$6">
             <Popover
@@ -175,7 +175,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
               <PopoverTrigger>
                 <SelectButton
                   className={styles.containerSm}
-                  placeholder={selectedPermission?.name || 'Select permission'}
+                  placeholder={selectedPermission?.name || "Select permission"}
                   onClick={() => {}}
                 />
               </PopoverTrigger>
@@ -200,7 +200,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
               </PopoverContent>
             </Popover>
 
-            {selectedPermission?.id === 'send' && (
+            {selectedPermission?.id === "send" && (
               <CustomizationField
                 permissionType={selectedPermission.id}
                 value={sendLimit}
@@ -214,7 +214,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
               />
             )}
 
-            {selectedPermission?.id === 'delegate' && (
+            {selectedPermission?.id === "delegate" && (
               <CustomizationField
                 permissionType={selectedPermission.id}
                 chainName={chainName}
@@ -236,7 +236,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
         <Box position="relative">
           <TextField
             id="expiry-date"
-            value={expiryDate ? dayjs(expiryDate).format('MM/DD/YYYY') : ''}
+            value={expiryDate ? dayjs(expiryDate).format("MM/DD/YYYY") : ""}
             label="Expiry Date"
             placeholder="Select expiry date"
             autoComplete="off"
@@ -255,7 +255,7 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
                 <Calendar
                   locale="en-US"
                   value={expiryDate}
-                  minDate={dayjs().add(1, 'day').startOf('day').toDate()}
+                  minDate={dayjs().add(1, "day").startOf("day").toDate()}
                   onChange={(val) => {
                     if (Array.isArray(val)) {
                       setExpiryDate(val[1]);

@@ -1,19 +1,19 @@
 // TODO fix type issues
 // @ts-nocheck
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import {
   Box,
   ClipboardCopyText,
   Stack,
   useColorModeValue,
-} from '@interchain-ui/react';
-import { WalletStatus } from 'cosmos-kit';
-import { useChain, useManager } from '@cosmos-kit/react';
-import { chains } from 'chain-registry';
-import { User } from './User';
-import { Chain } from './Chain';
-import { Warning } from './Warning';
+} from "@interchain-ui/react";
+import { WalletStatus } from "cosmos-kit";
+import { useChain, useManager } from "@cosmos-kit/react";
+import { chains } from "chain-registry";
+import { User } from "./User";
+import { Chain } from "./Chain";
+import { Warning } from "./Warning";
 import {
   ButtonConnect,
   ButtonConnected,
@@ -22,11 +22,11 @@ import {
   ButtonError,
   ButtonNotExist,
   ButtonRejected,
-} from './Connect';
-import { ChainCard } from './ChainCard';
+} from "./Connect";
+import { ChainCard } from "./ChainCard";
 
-export const DEFAULT_CHAIN_NAME = 'cosmoshub';
-export const CHAIN_NAME_STORAGE_KEY = 'selected-chain';
+export const DEFAULT_CHAIN_NAME = "cosmoshub";
+export const CHAIN_NAME_STORAGE_KEY = "selected-chain";
 
 export type WalletProps = {
   chainName?: string;
@@ -77,7 +77,7 @@ export function Wallet({
 
   return (
     <Box py="$16">
-      <Box mx="auto" maxWidth="28rem" attributes={{ mb: '$12' }}>
+      <Box mx="auto" maxWidth="28rem" attributes={{ mb: "$12" }}>
         {isMultiChain ? (
           <Chain
             chainName={chain.chain_name}
@@ -94,16 +94,16 @@ export function Wallet({
       <Stack
         direction="vertical"
         attributes={{
-          mx: 'auto',
-          px: '$8',
-          py: '$15',
-          maxWidth: '21rem',
-          borderRadius: '$lg',
-          justifyContent: 'center',
-          backgroundColor: useColorModeValue('$white', '$blackAlpha500'),
+          mx: "auto",
+          px: "$8",
+          py: "$15",
+          maxWidth: "21rem",
+          borderRadius: "$lg",
+          justifyContent: "center",
+          backgroundColor: useColorModeValue("$white", "$blackAlpha500"),
           boxShadow: useColorModeValue(
-            '0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3',
-            '0 0 2px #363636, 0 0 8px -2px #4f4f4f'
+            "0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3",
+            "0 0 2px #363636, 0 0 8px -2px #4f4f4f"
           ),
         }}
       >
@@ -119,7 +119,7 @@ export function Wallet({
           height="$16"
           overflow="hidden"
           justifyContent="center"
-          px={{ mobile: '$8', tablet: '$10' }}
+          px={{ mobile: "$8", tablet: "$10" }}
         >
           {ConnectButton}
         </Box>

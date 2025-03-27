@@ -1,13 +1,13 @@
 // TODO fix type issues
 // @ts-nocheck
 
-import { useState } from 'react';
-import { ChainName } from 'cosmos-kit';
-import { useChain } from '@cosmos-kit/react';
-import { Box, Button, Tabs, Text } from '@interchain-ui/react';
+import { useState } from "react";
+import { ChainName } from "cosmos-kit";
+import { useChain } from "@cosmos-kit/react";
+import { Box, Button, Tabs, Text } from "@interchain-ui/react";
 
-import { Grants } from './Grants';
-import { GrantModal } from './GrantModal';
+import { Grants } from "./Grants";
+import { GrantModal } from "./GrantModal";
 
 export const AuthzSection = ({ chainName }: { chainName: ChainName }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +21,7 @@ export const AuthzSection = ({ chainName }: { chainName: ChainName }) => {
         fontSize="$lg"
         textAlign="center"
         color="$textSecondary"
-        attributes={{ my: '$24' }}
+        attributes={{ my: "$24" }}
       >
         Please connect your wallet to view and create grants
       </Text>
@@ -39,17 +39,17 @@ export const AuthzSection = ({ chainName }: { chainName: ChainName }) => {
         <Tabs
           tabs={[
             {
-              label: 'Grants to me',
+              label: "Grants to me",
               content: null,
             },
             {
-              label: 'Grants by me',
+              label: "Grants by me",
               content: null,
             },
           ]}
           activeTab={activeTab}
           onActiveTabChange={(tabId) => setActiveTab(tabId)}
-          attributes={{ width: '$min' }}
+          attributes={{ width: "$min" }}
         />
         <Button intent="tertiary" onClick={() => setIsOpen(true)}>
           Create Grant
@@ -58,7 +58,7 @@ export const AuthzSection = ({ chainName }: { chainName: ChainName }) => {
 
       <Grants
         chainName={chainName}
-        role={activeTab === 0 ? 'grantee' : 'granter'}
+        role={activeTab === 0 ? "grantee" : "granter"}
       />
 
       <GrantModal

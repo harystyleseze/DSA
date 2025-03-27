@@ -56,7 +56,27 @@ function CreateCosmosApp({ Component, pageProps }: AppProps) {
   };
 
   return (
-    <ThemeProvider>
+    <ThemeProvider
+      overrides={{
+        button: {
+          bg: {
+            light: "green",
+            dark: "blue",
+          },
+        },
+      }}
+      themeDefs={[
+        {
+          name: "custom",
+          vars: {
+            colors: {
+              primary500: "#006400",
+            },
+          },
+        },
+      ]}
+      customTheme="custom"
+    >
       <ChainProvider
         chains={chains}
         assetLists={assets}
