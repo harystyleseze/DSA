@@ -1,24 +1,24 @@
 // TODO fix type issues
 // @ts-nocheck
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Box,
   StakingAssetHeader,
   StakingClaimHeader,
-} from '@interchain-ui/react';
-import { ChainName } from 'cosmos-kit';
+} from "@interchain-ui/react";
+import { ChainName } from "cosmos-kit";
 
-import { getCoin } from '@/configs';
-import { Prices, useAuthzTx } from '@/hooks';
+import { getCoin } from "@/configs";
+import { Prices, useAuthzTx } from "@/hooks";
 import {
   sum,
   calcDollarValue,
   isGreaterThanZero,
   type ParsedRewards as Rewards,
-} from '@/utils';
-import { MsgWithdrawDelegatorReward } from '@/src/codegen/cosmos/distribution/v1beta1/tx';
-import { useAuthzContext } from '@/context';
+} from "@/utils";
+import { MsgWithdrawDelegatorReward } from "@/src/codegen/cosmos/distribution/v1beta1/tx";
+import { useAuthzContext } from "@/context";
 
 const Overview = ({
   balance,
@@ -71,13 +71,13 @@ const Overview = ({
 
   return (
     <>
-      <Box mb={{ mobile: '$8', tablet: '$12' }}>
+      <Box mb={{ mobile: "$8", tablet: "$12" }}>
         <StakingAssetHeader
           imgSrc={
             coin.logo_URIs?.png ||
             coin.logo_URIs?.svg ||
             coin.logo_URIs?.jpeg ||
-            ''
+            ""
           }
           symbol={coin.symbol}
           totalAmount={Number(totalAmount) || 0}
@@ -87,7 +87,7 @@ const Overview = ({
         />
       </Box>
 
-      <Box mb={{ mobile: '$12', tablet: '$14' }}>
+      <Box mb={{ mobile: "$12", tablet: "$14" }}>
         <StakingClaimHeader
           symbol={coin.symbol}
           rewardsAmount={Number(rewards.total) || 0}

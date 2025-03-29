@@ -1,8 +1,8 @@
 // TODO fix type issues
 // @ts-nocheck
 
-import * as React from 'react';
-import { chains } from 'chain-registry';
+import * as React from "react";
+import { chains } from "chain-registry";
 import {
   Box,
   Combobox,
@@ -10,14 +10,14 @@ import {
   Stack,
   Avatar,
   useTheme,
-} from '@interchain-ui/react';
+} from "@interchain-ui/react";
 
 type Option = {
   label: string;
   value: string;
 };
 
-export type ChainInfo = typeof chains[number];
+export type ChainInfo = (typeof chains)[number];
 
 export interface ChooseChainProps {
   chainName?: string;
@@ -30,7 +30,7 @@ const ChainOption = (props: Option & { iconUrl: string }) => {
     <Stack
       direction="horizontal"
       space="$4"
-      attributes={{ alignItems: 'center' }}
+      attributes={{ alignItems: "center" }}
     >
       <Avatar
         name={props.label}
@@ -67,7 +67,7 @@ export const Chain = (props: ChooseChainProps) => {
 
   const chainOptions = chainInfos
     .map((chainInfo) => ({
-      iconUrl: chainInfo.logo_URIs?.png ?? '',
+      iconUrl: chainInfo.logo_URIs?.png ?? "",
       label: chainInfo.pretty_name,
       value: chainInfo.chain_name,
     }))
@@ -106,22 +106,22 @@ export const Chain = (props: ChooseChainProps) => {
               }
               fallbackMode="bg"
               attributes={{
-                paddingX: '$4',
+                paddingX: "$4",
               }}
             />
           ) : null
         }
         styleProps={{
           width: {
-            mobile: '100%',
-            mdMobile: '420px',
+            mobile: "100%",
+            mdMobile: "420px",
           },
         }}
       >
         {chainOptions.map((option) => (
           <Combobox.Item key={option.value} textValue={option.label}>
             <ChainOption
-              iconUrl={option.iconUrl ?? ''}
+              iconUrl={option.iconUrl ?? ""}
               label={option.label}
               value={option.value}
             />

@@ -1,12 +1,12 @@
 // TODO fix type issues
 // @ts-nocheck
 
-import { useChain } from '@cosmos-kit/react';
-import { ChainName } from 'cosmos-kit';
-import { Box, Spinner, Text } from '@interchain-ui/react';
+import { useChain } from "@cosmos-kit/react";
+import { ChainName } from "cosmos-kit";
+import { Box, Spinner, Text } from "@interchain-ui/react";
 
-import { useStakingData } from '@/hooks';
-import Overview from './Overview';
+import { useStakingData } from "@/hooks";
+import Overview from "./Overview";
 
 export const ClaimRewardsSection = ({
   chainName,

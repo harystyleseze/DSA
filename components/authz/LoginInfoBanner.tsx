@@ -1,8 +1,8 @@
 // TODO fix type issues
 // @ts-nocheck
 
-import { useChain } from '@cosmos-kit/react';
-import { Box, Icon, Text } from '@interchain-ui/react';
+import { useChain } from "@cosmos-kit/react";
+import { Box, Icon, Text } from "@interchain-ui/react";
 
 type LoginInfoBannerProps = {
   loginAddress: string;
@@ -29,6 +29,9 @@ export const LoginInfoBanner = ({
       px="$6"
       my="$16"
       mx="auto"
+      boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+      transition="transform 0.2s ease-in-out"
+      _hover={{ transform: "scale(1.02)" }}
     >
       <Icon name="errorWarningLine" size="$xl" />
       <Text>

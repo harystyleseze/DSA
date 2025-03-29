@@ -1,16 +1,16 @@
 // TODO fix type issues
 // @ts-nocheck
 
-import { useState } from 'react';
-import { Box, Spinner, Text } from '@interchain-ui/react';
+import { useState } from "react";
+import { Box, Spinner, Text } from "@interchain-ui/react";
 
-import { useGrants } from '@/hooks';
-import { PrettyGrant } from '@/utils';
-import { GrantCard } from './GrantCard';
-import { GrantDetailsModal } from './GrantDetailsModal';
+import { useGrants } from "@/hooks";
+import { PrettyGrant } from "@/utils";
+import { GrantCard } from "./GrantCard";
+import { GrantDetailsModal } from "./GrantDetailsModal";
 
 type GrantsProps = {
-  role: 'granter' | 'grantee';
+  role: "granter" | "grantee";
   chainName: string;
 };
 
@@ -19,7 +19,7 @@ export const Grants = ({ chainName, role }: GrantsProps) => {
   const [viewingGrant, setViewingGrant] = useState<PrettyGrant>();
   const { data, isLoading, isError } = useGrants(chainName);
 
-  const isGranter = role === 'granter';
+  const isGranter = role === "granter";
   const grants = isGranter ? data?.granterGrants : data?.granteeGrants;
 
   const renderContent = () => {
@@ -41,7 +41,7 @@ export const Grants = ({ chainName, role }: GrantsProps) => {
           width="$full"
           alignSelf="flex-start"
           display="grid"
-          gridTemplateColumns={{ mobile: '1fr', tablet: '1fr 1fr' }}
+          gridTemplateColumns={{ mobile: "1fr", tablet: "1fr 1fr" }}
           gap="$10"
         >
           {grants.map((grant) => (
@@ -70,7 +70,16 @@ export const Grants = ({ chainName, role }: GrantsProps) => {
   };
 
   return (
-    <Box flex="1" display="flex" justifyContent="center" alignItems="center">
+    <Box
+      flex="1"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+      borderRadius="$lg"
+      transition="transform 0.2s ease-in-out"
+      _hover={{ transform: "scale(1.02)" }}
+    >
       {renderContent()}
 
       {viewingGrant && (

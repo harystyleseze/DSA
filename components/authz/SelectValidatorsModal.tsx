@@ -116,6 +116,10 @@ export const SelectValidatorsModal = ({
         maxHeight="640px"
         overflowY="auto"
         mb="$8"
+        boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+        borderRadius="$lg"
+        transition="transform 0.2s ease-in-out"
+        _hover={{ transform: "scale(1.02)" }}
       >
         {isLoading ? (
           <Spinner size="$6xl" />

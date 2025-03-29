@@ -29,7 +29,16 @@ export const AuthzSection = ({ chainName }: { chainName: ChainName }) => {
   }
 
   return (
-    <Box mb="$18" minHeight="500px" display="flex" flexDirection="column">
+    <Box
+      mb="$18"
+      minHeight="500px"
+      display="flex"
+      flexDirection="column"
+      boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+      borderRadius="$lg"
+      transition="transform 0.2s ease-in-out"
+      _hover={{ transform: "scale(1.02)" }}
+    >
       <Box
         display="flex"
         justifyContent="space-between"
@@ -51,7 +60,11 @@ export const AuthzSection = ({ chainName }: { chainName: ChainName }) => {
           onActiveTabChange={(tabId) => setActiveTab(tabId)}
           attributes={{ width: "$min" }}
         />
-        <Button intent="tertiary" onClick={() => setIsOpen(true)}>
+        <Button
+          intent="tertiary"
+          onClick={() => setIsOpen(true)}
+          _focus={{ boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)" }}
+        >
           Create Grant
         </Button>
       </Box>

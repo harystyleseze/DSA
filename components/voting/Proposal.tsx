@@ -11,23 +11,23 @@ import {
   Icon,
   Stack,
   Text,
-} from '@interchain-ui/react';
+} from "@interchain-ui/react";
 import {
   Proposal as IProposal,
   ProposalStatus,
-} from 'interchain-query/cosmos/gov/v1beta1/gov';
+} from "interchain-query/cosmos/gov/v1beta1/gov";
 import {
   exponentiate,
   formatDate,
   getCoin,
   getExponent,
   percent,
-} from '@/utils';
-import Markdown from 'react-markdown';
-import { useEffect, useState } from 'react';
-import { useAuthzTx, Votes } from '@/hooks';
-import { useAuthzContext } from '@/context';
-import { MsgVote } from '@/src/codegen/cosmos/gov/v1beta1/tx';
+} from "@/utils";
+import Markdown from "react-markdown";
+import { useEffect, useState } from "react";
+import { useAuthzTx, Votes } from "@/hooks";
+import { useAuthzContext } from "@/context";
+import { MsgVote } from "@/src/codegen/cosmos/gov/v1beta1/tx";
 
 // export declare enum VoteOption {
 //   /** VOTE_OPTION_UNSPECIFIED - VOTE_OPTION_UNSPECIFIED defines a no-op vote option. */
@@ -43,7 +43,7 @@ import { MsgVote } from '@/src/codegen/cosmos/gov/v1beta1/tx';
 //   UNRECOGNIZED = -1
 // }
 
-const VoteTypes = ['', 'yes', 'abstain', 'no', 'noWithVeto'];
+const VoteTypes = ["", "yes", "abstain", "no", "noWithVeto"];
 
 export type ProposalProps = {
   proposal: IProposal;
@@ -77,14 +77,14 @@ export function Proposal({
   const toggleShowMore = () => setShowMore((v) => !v);
 
   useEffect(() => {
-    if (typeof vote === 'number') {
+    if (typeof vote === "number") {
       setVoteType(VoteTypes[vote] as GovernanceVoteType);
     }
   }, [vote]);
 
   const isChanged =
     (vote === undefined && voteType) ||
-    (typeof vote === 'number' && voteType && voteType !== VoteTypes[vote]);
+    (typeof vote === "number" && voteType && voteType !== VoteTypes[vote]);
 
   const isPassed = proposal.status === ProposalStatus.PROPOSAL_STATUS_PASSED;
 
@@ -107,33 +107,33 @@ export function Proposal({
   const turnout = total / Number(bondedTokens);
 
   // @ts-ignore
-  const description = proposal?.content?.description || '';
+  const description = proposal?.content?.description || "";
   const renderedDescription =
     description.length > 200
       ? showMore
         ? description
         : `${description.slice(0, 200)}...`
-      : description || '';
+      : description || "";
 
   const minStakedTokens =
     quorum && exponentiate(quorum * Number(bondedTokens), -exponent).toFixed(6);
 
   const timepoints = [
     {
-      label: 'Submit Time',
-      timestamp: formatDate(proposal?.submitTime!) || '',
+      label: "Submit Time",
+      timestamp: formatDate(proposal?.submitTime!) || "",
     },
     {
-      label: 'Voting Starts',
+      label: "Voting Starts",
       timestamp: isDepositPeriod
-        ? 'Not Specified Yet'
-        : formatDate(proposal.votingStartTime) || '',
+        ? "Not Specified Yet"
+        : formatDate(proposal.votingStartTime) || "",
     },
     {
-      label: 'Voting Ends',
+      label: "Voting Ends",
       timestamp: isDepositPeriod
-        ? 'Not Specified Yet'
-        : formatDate(proposal?.votingEndTime!) || '',
+        ? "Not Specified Yet"
+        : formatDate(proposal?.votingEndTime!) || "",
     },
   ];
 
@@ -174,9 +174,9 @@ export function Proposal({
         flexDirection="column"
         gap="$10"
         p={{
-          mobile: '$9',
-          tablet: '$10',
-          desktop: '$10',
+          mobile: "$9",
+          tablet: "$10",
+          desktop: "$10",
         }}
         borderRadius="$lg"
       >
@@ -196,7 +196,7 @@ export function Proposal({
             </Stack>
           ))}
         </Box>
-        <Box display={!isVotingPeriod && !vote ? 'none' : 'block'}>
+        <Box display={!isVotingPeriod && !vote ? "none" : "block"}>
           <GovernanceRadioGroup
             value={voteType}
             isDisabled={isVoting}
@@ -205,14 +205,14 @@ export function Proposal({
             <Box
               display="flex"
               flexDirection={{
-                mobile: 'column',
-                tablet: 'row',
-                desktop: 'row',
+                mobile: "column",
+                tablet: "row",
+                desktop: "row",
               }}
               justifyContent={{
-                mobile: 'flex-start',
-                tablet: 'space-between',
-                desktop: 'space-between',
+                mobile: "flex-start",
+                tablet: "space-between",
+                desktop: "space-between",
               }}
               gap="$6"
             >
@@ -231,14 +231,14 @@ export function Proposal({
           }
           onClick={onVoteButtonClick}
         >
-          {vote ? 'Update Vote' : 'Vote'}
+          {vote ? "Update Vote" : "Vote"}
         </Button>
       </Box>
       <Stack
         direction="vertical"
         space="$6"
         attributes={{
-          marginY: '$12',
+          marginY: "$12",
         }}
       >
         <Text color="$textSecondary" fontSize="$lg" fontWeight="$semibold">
@@ -250,8 +250,8 @@ export function Proposal({
             fontSize="$xs"
             fontWeight="$normal"
             attributes={{
-              display: 'flex',
-              alignItems: 'center',
+              display: "flex",
+              alignItems: "center",
             }}
           >
             <Icon
@@ -259,7 +259,7 @@ export function Proposal({
               color="$textSecondary"
               size="$sm"
               attributes={{
-                marginRight: '$2',
+                marginRight: "$2",
               }}
             />
             <Text
@@ -268,7 +268,7 @@ export function Proposal({
               fontWeight="$semibold"
               fontSize="$xs"
               attributes={{
-                px: '$2',
+                px: "$2",
               }}
             >
               {`Minimum of staked ${minStakedTokens} ${coin.symbol}(${
@@ -357,20 +357,37 @@ export function Proposal({
           fontSize="$lg"
           fontWeight="$semibold"
           attributes={{
-            marginBottom: '$8',
+            marginBottom: "$8",
           }}
         >
           Description
         </Text>
 
-        <Text fontSize="$sm" fontWeight="$normal" color="$textSecondary">
-          {showMore ? <Markdown>{description}</Markdown> : renderedDescription}
-        </Text>
-
-        <Box mt="$8" width="100%" display="flex" justifyContent="center">
-          <Button intent="secondary" variant="ghost" onClick={toggleShowMore}>
-            {showMore ? 'Show less' : 'Show more'}
-          </Button>
+        <Box>
+          <Text color="$textSecondary" fontSize="$sm">
+            <Markdown>{renderedDescription}</Markdown>
+          </Text>
+          {description.length > 200 && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleShowMore}
+              attributes={{
+                mt: "$4",
+                color: "#386641",
+                cursor: "pointer",
+                position: "relative",
+                zIndex: "1",
+                display: "block",
+                fontWeight: "$medium",
+                _hover: {
+                  bg: "rgba(56, 102, 65, 0.1)",
+                },
+              }}
+            >
+              {showMore ? "Show Less ↑" : "Show More ↓"}
+            </Button>
+          )}
         </Box>
       </Box>
     </Box>

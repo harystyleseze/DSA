@@ -9,7 +9,17 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['raw.githubusercontent.com'],
+    domains: ["raw.githubusercontent.com"],
+  },
+
+  // Add rewrites to proxy API requests to the Flask backend
+  async rewrites() {
+    return [
+      {
+        source: "/api/chat", // The API route in your Next.js frontend
+        destination: "http://localhost:8000/api/chat", // Your Flask backend endpoint
+      },
+    ];
   },
 };
 

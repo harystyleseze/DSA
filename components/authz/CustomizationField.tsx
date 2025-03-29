@@ -28,6 +28,9 @@ const SendCustomization = ({ value, onChange }: SendCustomizationProps) => {
       formatOptions={{
         maximumFractionDigits: 6,
       }}
+      boxShadow="0 2px 4px rgba(0, 0, 0, 0.1)"
+      borderRadius="$md"
+      _focus={{ boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)" }}
     />
   );
 };
@@ -71,6 +74,9 @@ const DelegateCustomization = ({
         formatOptions={{
           maximumFractionDigits: 6,
         }}
+        boxShadow="0 2px 4px rgba(0, 0, 0, 0.1)"
+        borderRadius="$md"
+        _focus={{ boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)" }}
       />
       <SelectButton
         placeholder="Select Validators (Optional)"

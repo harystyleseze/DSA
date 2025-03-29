@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Box, Button, Text, Icon, ThemeProvider } from "@interchain-ui/react";
+import { Box, Button, Text } from "@interchain-ui/react";
 import { GrantModal } from "@/components/authz/GrantModal";
 import { useAuthzContext } from "@/context";
-import { Header } from "@/components/common/Header";
 import { Footer } from "@/components/common/Footer";
+import { AuthzThemeProvider } from "@/components/common/AuthzThemeProvider";
 import { IoMdCreate } from "react-icons/io";
 import Link from "next/link";
 
@@ -12,58 +12,48 @@ export default function CreateGrant() {
   const { chainName } = useAuthzContext();
 
   return (
-    <ThemeProvider
-      overrides={{
-        button: {
-          bg: {
-            light: "green",
-            dark: "blue",
-          },
-        },
-      }}
-      themeDefs={[
-        {
-          name: "custom",
-          vars: {
-            colors: {
-              primary500: "#006400",
-            },
-          },
-        },
-      ]}
-      customTheme="custom"
-    >
+    <AuthzThemeProvider>
       <Box>
-        <Header />
-        <Box py="$16" px="$8" maxWidth="$containerLg" mx="auto">
+        <Box
+          py={{ mobile: "$8", tablet: "$16" }}
+          px={{ mobile: "$4", tablet: "$8" }}
+          maxWidth="$containerLg"
+          mx="auto"
+        >
           <Box
             display="flex"
             alignItems="center"
             justifyContent="center"
-            mb="$8"
+            mb={{ mobile: "$6", tablet: "$8" }}
+            flexDirection={{ mobile: "column", tablet: "row" }}
+            gap={{ mobile: "$4", tablet: "$6" }}
           >
-            <IoMdCreate
-              size="48px"
-              color="#4A90E2"
-              style={{ marginRight: "16px" }}
-            />
+            <IoMdCreate size="48px" color="#386641" />
             <Text
               as="h1"
-              fontSize="$3xl"
+              fontSize={{ mobile: "$2xl", tablet: "$3xl" }}
               fontWeight="$semibold"
               textAlign="center"
             >
               Create a New Grant
             </Text>
           </Box>
-          <Text fontSize="$lg" textAlign="center" attributes={{ mb: "$12" }}>
+          <Text
+            fontSize={{ mobile: "$md", tablet: "$lg" }}
+            textAlign="center"
+            attributes={{ mb: { mobile: "$8", tablet: "$12" } }}
+          >
             Select the type of permission you want to grant and configure the
             settings.
           </Text>
           <Button
             intent="primary"
             onClick={() => setIsOpen(true)}
-            attributes={{ mx: "auto", display: "block", mt: "$8" }}
+            attributes={{
+              mx: "auto",
+              display: "block",
+              mt: "$8",
+            }}
           >
             Create New Grant
           </Button>
@@ -72,14 +62,28 @@ export default function CreateGrant() {
             onClose={() => setIsOpen(false)}
             chainName={chainName || ""}
           />
-          <Box textAlign="center" mt="$8">
+          <Box
+            textAlign="center"
+            mt={{ mobile: "$6", tablet: "$8" }}
+            display="flex"
+            flexDirection={{ mobile: "column", tablet: "row" }}
+            gap={{ mobile: "$4", tablet: "$6" }}
+            justifyContent="center"
+          >
             <Link href="/">
-              <Button intent="secondary">Back to Homepage</Button>
+              <Button
+                intent="secondary"
+                attributes={{
+                  width: { mobile: "100%", tablet: "auto" },
+                }}
+              >
+                Back to Homepage
+              </Button>
             </Link>
           </Box>
         </Box>
         <Footer />
       </Box>
-    </ThemeProvider>
+    </AuthzThemeProvider>
   );
 }

@@ -1,40 +1,180 @@
-This is a Cosmos App project bootstrapped with [`create-cosmos-app`](https://github.com/hyperweb-io/create-cosmos-app).
+# Delegated Staking Agent (DSA)
 
-## Getting Started
+## Overview
 
-First, install the packages and run the development server:
+Delegated Staking Agent (DSA) is a decentralized platform that enables delegated staking in the Cosmos ecosystem using the Cosmos SDK's Authz module. The platform allows users (granters) to delegate specific staking actions, such as token delegation or governance voting, to delegates (grantees) without relinquishing control over their funds.
+
+## Features
+
+- **Secure Delegation**: Grant specific permissions for staking operations while maintaining custody of funds
+- **Multiple Grant Types**: Support for various authorization types including:
+  - Staking delegation
+  - Governance voting
+  - Reward claiming
+- **User-Friendly Interface**: Modern, responsive UI built with Next.js and @interchain-ui/react
+- **Multi-Chain Support**: Compatible with multiple Cosmos-based chains
+- **Real-Time Updates**: Live tracking of delegations, rewards, and voting power
+- **Wallet Integration**: Seamless connection with popular Cosmos wallets
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- Node.js (v18.0.0 or higher)
+- Yarn (v1.22.0 or higher)
+- Python (v3.12 or higher) for the backend services
+- Git
+
+## Installation
+
+1. Clone the repository:
 
 ```bash
-yarn && yarn dev
+git clone https://github.com/harystyleseze/DSA.git
+cd DSA
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install frontend dependencies:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+yarn install
+```
 
-## Interchain JavaScript Stack 
+3. Set up the backend environment:
 
-A unified toolkit for building applications and smart contracts in the Interchain ecosystem ⚛️
+```bash
+cd secret-backend
+python -m venv venv
+source venv/bin/activate  # On Windows use: venv\Scripts\activate
+pip install -r requirements.txt
+pip install 'secret-sdk>=1.8.1'
+pip install secret-ai-sdk
+```
 
-| Category              | Tools                                                                                                                  | Description                                                                                           |
-|----------------------|------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
-| **Chain Information**   | [**Chain Registry**](https://github.com/hyperweb-io/chain-registry), [**Utils**](https://www.npmjs.com/package/@chain-registry/utils), [**Client**](https://www.npmjs.com/package/@chain-registry/client) | Everything from token symbols, logos, and IBC denominations for all assets you want to support in your application. |
-| **Wallet Connectors**| [**Interchain Kit**](https://github.com/hyperweb-io/interchain-kit)<sup>beta</sup>, [**Cosmos Kit**](https://github.com/hyperweb-io/cosmos-kit) | Experience the convenience of connecting with a variety of web3 wallets through a single, streamlined interface. |
-| **Signing Clients**          | [**InterchainJS**](https://github.com/hyperweb-io/interchainjs)<sup>beta</sup>, [**CosmJS**](https://github.com/cosmos/cosmjs) | A single, universal signing interface for any network |
-| **SDK Clients**              | [**Telescope**](https://github.com/hyperweb-io/telescope)                                                          | Your Frontend Companion for Building with TypeScript with Cosmos SDK Modules. |
-| **Starter Kits**     | [**Create Interchain App**](https://github.com/hyperweb-io/create-interchain-app)<sup>beta</sup>, [**Create Cosmos App**](https://github.com/hyperweb-io/create-cosmos-app) | Set up a modern Interchain app by running one command. |
-| **UI Kits**          | [**Interchain UI**](https://github.com/hyperweb-io/interchain-ui)                                                   | The Interchain Design System, empowering developers with a flexible, easy-to-use UI kit. |
-| **Testing Frameworks**          | [**Starship**](https://github.com/hyperweb-io/starship)                                                             | Unified Testing and Development for the Interchain. |
-| **TypeScript Smart Contracts** | [**Create Hyperweb App**](https://github.com/hyperweb-io/create-hyperweb-app)                              | Build and deploy full-stack blockchain applications with TypeScript |
-| **CosmWasm Contracts** | [**CosmWasm TS Codegen**](https://github.com/CosmWasm/ts-codegen)                                                   | Convert your CosmWasm smart contracts into dev-friendly TypeScript classes. |
+## Development
 
-## Credits
+1. Start the development server:
 
-🛠 Built by Hyperweb (formerly Cosmology) — if you like our tools, please checkout and contribute to [our github ⚛️](https://github.com/hyperweb-io)
+```bash
+yarn dev
+```
 
+2. Run the backend services:
 
-## Disclaimer
+```bash
+cd secret-backend
+source venv/bin/activate
+python app.py
+```
 
-AS DESCRIBED IN THE LICENSES, THE SOFTWARE IS PROVIDED “AS IS”, AT YOUR OWN RISK, AND WITHOUT WARRANTIES OF ANY KIND.
+The application will be available at [http://localhost:3000](http://localhost:3000)
 
-No developer or entity involved in creating this software will be liable for any claims or damages whatsoever associated with your use, inability to use, or your interaction with other users of the code, including any direct, indirect, incidental, special, exemplary, punitive or consequential damages, or loss of profits, cryptocurrencies, tokens, or anything else of value.
+## Project Structure
+
+```
+DSA/
+├── components/          # React components
+├── configs/            # Configuration files
+├── context/            # React context providers
+├── hooks/              # Custom React hooks
+├── pages/              # Next.js pages
+├── public/             # Static assets
+├── styles/            # CSS and styling files
+├── types/             # TypeScript type definitions
+├── utils/             # Utility functions
+└── secret-backend/    # Python backend services
+```
+
+## Key Components
+
+### Frontend
+
+- **AuthzThemeProvider**: Custom theme provider for consistent styling
+- **Wallet Integration**: Cosmos wallet connection management
+- **Grant Management**: Interface for creating and managing grants
+- **Voting Interface**: Governance proposal viewing and voting
+- **Staking Dashboard**: Delegation and reward management
+
+### Backend
+
+- **Authentication**: Secure wallet authentication
+- **Grant Processing**: Authorization grant creation and validation
+- **Chain Integration**: Interaction with Cosmos chains
+- **Transaction Management**: Secure transaction handling
+
+## Usage Guide
+
+### Connecting Your Wallet
+
+1. Click "Connect Wallet" on the homepage
+2. Select your preferred Cosmos wallet
+3. Approve the connection request
+
+### Creating a Grant
+
+1. Navigate to "Create Grant"
+2. Select the grant type (staking, voting, etc.)
+3. Specify the grantee address
+4. Configure grant parameters
+5. Confirm and sign the transaction
+
+### Managing Delegations
+
+1. Access "My Grants" to view active delegations
+2. Monitor delegation performance
+3. Adjust or revoke permissions as needed
+
+### Participating in Governance
+
+1. Browse active proposals
+2. Review proposal details
+3. Cast votes through your delegate
+
+## API Documentation
+
+### Endpoints
+
+- `POST /api/grants/create`: Create new authorization grant
+- `GET /api/grants/list`: List all active grants
+- `POST /api/grants/revoke`: Revoke existing grant
+- `GET /api/proposals`: Get active governance proposals
+
+## Security
+
+- All smart contract interactions are signed by the user's wallet
+- Grants can be revoked at any time by the granter
+- Regular security audits are performed
+- Bug bounty program available for security researchers
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Wallet Connection Failed**
+
+   - Ensure your wallet extension is installed and up to date
+   - Check if you're on the correct network
+
+2. **Transaction Error**
+
+   - Verify you have sufficient funds for gas
+   - Check network connectivity
+   - Ensure correct chain configuration
+
+3. **Grant Creation Failed**
+   - Verify the grantee address is valid
+   - Check grant parameters are correctly set
+
+## License
+
+This project is licensed under the MIT License.
+
+## Contact & Support
+
+- GitHub Issues: [Create an issue](https://github.com/harystyleseze/DSA/issues)
+
+## Acknowledgments
+
+- Built with [create-cosmos-app](https://github.com/cosmology-tech/create-cosmos-app)
+- Powered by [Cosmos SDK](https://github.com/cosmos/cosmos-sdk)
+- UI components from [@interchain-ui/react](https://github.com/cosmology-tech/interchain-ui)

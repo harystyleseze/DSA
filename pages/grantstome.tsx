@@ -2,39 +2,100 @@ import { useState } from "react";
 import { Box, Button, Text } from "@interchain-ui/react";
 import { Grants } from "@/components/authz/Grants";
 import { useAuthzContext } from "@/context";
-import { Header } from "@/components/common/Header";
 import { Footer } from "@/components/common/Footer";
+import { AuthzThemeProvider } from "@/components/common/AuthzThemeProvider";
+import { IoMdCreate, IoMdArrowRoundBack } from "react-icons/io";
 import Link from "next/link";
 
 export default function GrantsToMe() {
   const { chainName } = useAuthzContext();
 
   return (
-    <Box>
-      <Header />
-      <Box py="$16" px="$8" maxWidth="$containerLg" mx="auto">
-        <Text
-          as="h1"
-          fontSize="$3xl"
-          fontWeight="$semibold"
-          textAlign="center"
-          attributes={{ mb: "$8" }}
+    <AuthzThemeProvider>
+      <Box>
+        <Box
+          maxWidth="$containerLg"
+          mx="auto"
+          px={{ mobile: "$4", tablet: "$8" }}
+          py={{ mobile: "$8", tablet: "$12" }}
         >
-          Grants Received by Me
-        </Text>
-        <Grants chainName={chainName || ""} role="grantee" />
-        <Box textAlign="center" mt="$8">
-          <Link href="/">
-            <Button intent="secondary">Back to Homepage</Button>
-          </Link>
-          <Link href="/create-grant">
-            <Button intent="primary" attributes={{ ml: "$4" }}>
-              Create New Grant
-            </Button>
-          </Link>
+          {/* Hero Section */}
+          <Box textAlign="center" mb={{ mobile: "$8", tablet: "$12" }}>
+            <Text
+              as="h1"
+              fontSize={{ mobile: "$3xl", tablet: "$4xl" }}
+              fontWeight="$semibold"
+              attributes={{ mb: "$4" }}
+            >
+              Grants Received by Me
+            </Text>
+            <Text
+              fontSize={{ mobile: "$lg", tablet: "$xl" }}
+              color="$textSecondary"
+              attributes={{
+                maxWidth: "$containerSm",
+                mx: "auto",
+              }}
+            >
+              View and manage all the grants that have been issued to your
+              address
+            </Text>
+          </Box>
+
+          {/* Grants Section */}
+          <Box
+            bg="$gray50"
+            borderRadius="$xl"
+            p={{ mobile: "$6", tablet: "$8" }}
+            mb={{ mobile: "$8", tablet: "$12" }}
+            boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1)"
+          >
+            <Grants chainName={chainName || ""} role="grantee" />
+          </Box>
+
+          {/* Action Buttons */}
+          <Box
+            display="flex"
+            flexDirection={{ mobile: "column", tablet: "row" }}
+            gap="$4"
+            justifyContent="center"
+          >
+            <Link href="/" style={{ width: "100%" }}>
+              <Button
+                intent="secondary"
+                attributes={{
+                  width: "100%",
+                  height: "$12",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "$2",
+                }}
+              >
+                <IoMdArrowRoundBack size="20px" />
+                Back to Homepage
+              </Button>
+            </Link>
+            <Link href="/create-grant" style={{ width: "100%" }}>
+              <Button
+                intent="primary"
+                attributes={{
+                  width: "100%",
+                  height: "$12",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "$2",
+                }}
+              >
+                <IoMdCreate size="20px" />
+                Create New Grant
+              </Button>
+            </Link>
+          </Box>
         </Box>
+        <Footer />
       </Box>
-      <Footer />
-    </Box>
+    </AuthzThemeProvider>
   );
 }

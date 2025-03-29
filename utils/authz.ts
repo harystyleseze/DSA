@@ -1,48 +1,48 @@
-import dayjs from 'dayjs';
-import { Coin } from '@cosmjs/amino';
-import { GetServerSideProps } from 'next';
+import dayjs from "dayjs";
+import { Coin } from "@cosmjs/amino";
+import { GetServerSideProps } from "next";
 
 import {
   GenericAuthorization,
   GrantAuthorization,
-} from '@/src/codegen/cosmos/authz/v1beta1/authz';
-import { SendAuthorization } from '@/src/codegen/cosmos/bank/v1beta1/authz';
+} from "@/src/codegen/cosmos/authz/v1beta1/authz";
+import { SendAuthorization } from "@/src/codegen/cosmos/bank/v1beta1/authz";
 import {
   authorizationTypeToJSON,
   StakeAuthorization,
-} from '@/src/codegen/cosmos/staking/v1beta1/authz';
+} from "@/src/codegen/cosmos/staking/v1beta1/authz";
 
-import { shiftDigits } from './calc';
-import { ExtendedValidator } from './staking';
-import { getExponentByDenom, getSymbolByDenom } from './chain';
+import { shiftDigits } from "./calc";
+import { ExtendedValidator } from "./staking";
+import { getExponentByDenom, getSymbolByDenom } from "./chain";
 
 const capitalize = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 };
 
-const getAuthzPrettyName = (authz: GrantAuthorization['authorization']) => {
+const getAuthzPrettyName = (authz: GrantAuthorization["authorization"]) => {
   switch (true) {
     case SendAuthorization.is(authz):
-      return 'Send';
+      return "Send";
 
     case StakeAuthorization.is(authz):
       const type = authorizationTypeToJSON(
         (authz as StakeAuthorization).authorizationType
       );
-      return capitalize(type.split('_').pop()!);
+      return capitalize(type.split("_").pop()!);
 
     case GenericAuthorization.is(authz):
       const msg = (authz as GenericAuthorization).msg;
-      return msg.split('.').pop()!.replace('Msg', '');
+      return msg.split(".").pop()!.replace("Msg", "");
 
     default:
-      return 'Unknown';
+      return "Unknown";
   }
 };
 
 export const prettyGrants = (
   grants: GrantAuthorization[],
-  groupBy: 'granter' | 'grantee'
+  groupBy: "granter" | "grantee"
 ) => {
   return grants
     .reduce((acc, grant) => {
@@ -65,7 +65,7 @@ export const prettyGrants = (
       const permissions = grants.map((grant) => {
         return {
           ...grant,
-          expiry: dayjs(grant.expiration).format('YYYY-MM-DD HH:mm:ss'),
+          expiry: dayjs(grant.expiration).format("YYYY-MM-DD HH:mm:ss"),
           name: getAuthzPrettyName(grant.authorization),
         };
       });
@@ -78,7 +78,7 @@ export const prettyGrants = (
 };
 
 export type PrettyGrant = ReturnType<typeof prettyGrants>[0];
-export type PrettyPermission = PrettyGrant['permissions'][0];
+export type PrettyPermission = PrettyGrant["permissions"][0];
 
 const formatTokenAmount = (token: Coin) => {
   const symbol = getSymbolByDenom(token.denom);
@@ -96,11 +96,11 @@ const formatValidatorsList = (
       const validator = validators.find((v) => v.address === address);
       return validator ? validator.name : address;
     })
-    .join(', ');
+    .join(", ");
 };
 
 export const getAttributePairs = (
-  authz: GrantAuthorization['authorization'],
+  authz: GrantAuthorization["authorization"],
   validators: ExtendedValidator[]
 ) => {
   const pair: { label: string; value: string }[] = [];
@@ -110,7 +110,7 @@ export const getAttributePairs = (
       const sendAuthz = authz as SendAuthorization;
       if (sendAuthz.spendLimit) {
         pair.push({
-          label: 'Spend Limit',
+          label: "Spend Limit",
           value: formatTokenAmount(sendAuthz.spendLimit[0]),
         });
       }
@@ -119,19 +119,19 @@ export const getAttributePairs = (
       const stakeAuthz = authz as StakeAuthorization;
       if (stakeAuthz.maxTokens) {
         pair.push({
-          label: 'Max Tokens',
+          label: "Max Tokens",
           value: formatTokenAmount(stakeAuthz.maxTokens),
         });
       }
       if (stakeAuthz.allowList) {
         pair.push({
-          label: 'Allow List',
+          label: "Allow List",
           value: formatValidatorsList(stakeAuthz.allowList.address, validators),
         });
       }
       if (stakeAuthz.denyList) {
         pair.push({
-          label: 'Deny List',
+          label: "Deny List",
           value: formatValidatorsList(stakeAuthz.denyList.address, validators),
         });
       }

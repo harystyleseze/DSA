@@ -1,1 +1,1 @@
-export * from './ClaimRewardsSection';
+export * from "./ClaimRewardsSection";

@@ -146,13 +146,39 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
       isOpen={isOpen}
       onClose={onModalClose}
       closeOnClickaway={false}
+      attributes={{
+        backgroundColor: "#f2e8cf",
+        boxShadow: "0 12px 24px rgba(56, 102, 65, 0.15)",
+        borderRadius: "$xl",
+        border: "1px solid rgba(106, 153, 78, 0.2)",
+        maxHeight: "95vh",
+        width: {
+          mobile: "95vw",
+          tablet: "680px",
+          desktop: "720px",
+        },
+        margin: "auto",
+        ".modal-header": {
+          backgroundColor: "#6a994e15",
+          borderBottom: "1px solid rgba(106, 153, 78, 0.1)",
+          color: "#386641",
+          fontWeight: "$semibold",
+          padding: { mobile: "$6", tablet: "$8" },
+          fontSize: { mobile: "$xl", tablet: "$2xl" },
+        },
+        ".modal-content": {
+          padding: { mobile: "$6", tablet: "$8" },
+          maxHeight: "calc(95vh - 70px)",
+          overflow: "auto",
+        },
+      }}
     >
       <Box
-        width={{ mobile: "100%", tablet: "$containerSm" }}
+        width="100%"
         display="flex"
         flexDirection="column"
-        gap="$9"
-        pt="$4"
+        gap={{ mobile: "$8", tablet: "$10" }}
+        backgroundColor="#f2e8cf"
       >
         <AddressInput
           label="Grantee Address"
@@ -161,10 +187,28 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
           address={granteeAddress}
           onAddressChange={setGranteeAddress}
           onInvalidAddress={setAddressErrorMsg}
+          attributes={{
+            borderColor: "#6a994e",
+            backgroundColor: "#ffffff",
+            fontSize: { mobile: "$md", tablet: "$lg" },
+            _focus: {
+              borderColor: "#386641",
+              boxShadow: "0 0 0 2px rgba(56, 102, 65, 0.2)",
+            },
+          }}
         />
 
         <Box>
-          <FieldLabel htmlFor="" label="Permission" attributes={{ mb: "$4" }} />
+          <FieldLabel
+            htmlFor=""
+            label="Permission"
+            attributes={{
+              mb: "$3",
+              color: "#386641",
+              fontWeight: "$semibold",
+              fontSize: { mobile: "$md", tablet: "$lg" },
+            }}
+          />
 
           <Box display="flex" flexDirection="column" gap="$6">
             <Popover
@@ -177,10 +221,26 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
                   className={styles.containerSm}
                   placeholder={selectedPermission?.name || "Select permission"}
                   onClick={() => {}}
+                  attributes={{
+                    backgroundColor: "#ffffff",
+                    borderColor: "#6a994e",
+                    color: "#386641",
+                    _hover: {
+                      borderColor: "#386641",
+                    },
+                  }}
                 />
               </PopoverTrigger>
-              <PopoverContent showArrow={false}>
-                <Stack direction="vertical">
+              <PopoverContent
+                attributes={{
+                  backgroundColor: "#f2e8cf",
+                  borderColor: "#6a994e",
+                  boxShadow: "0 8px 16px rgba(56, 102, 65, 0.1)",
+                  maxHeight: "200px",
+                  overflow: "auto",
+                }}
+              >
+                <Stack direction="vertical" space="$2">
                   {permissions.map((p) => (
                     <ListItem
                       key={p.id}
@@ -191,6 +251,20 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
                           setSelectedPermission(p);
                           setIsDropdownOpen(false);
                         },
+                        backgroundColor:
+                          p.id === selectedPermission?.id
+                            ? "#6a994e"
+                            : "transparent",
+                        color:
+                          p.id === selectedPermission?.id
+                            ? "#f2e8cf"
+                            : "#386641",
+                        _hover: {
+                          backgroundColor: "#a7c957",
+                          color: "#386641",
+                        },
+                        padding: "$3",
+                        marginBottom: "$2",
                       }}
                     >
                       {p.name}
@@ -240,39 +314,58 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
             label="Expiry Date"
             placeholder="Select expiry date"
             autoComplete="off"
+            readOnly
+            onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+            attributes={{
+              backgroundColor: "#ffffff",
+              borderColor: "#6a994e",
+              cursor: "pointer",
+              fontSize: { mobile: "$md", tablet: "$lg" },
+              _focus: {
+                borderColor: "#386641",
+                boxShadow: "0 0 0 2px rgba(56, 102, 65, 0.2)",
+              },
+            }}
           />
-          <Box position="absolute" bottom="7px" right="10px">
-            <Popover
-              triggerType="click"
-              offset={{ mainAxis: 12 }}
-              isOpen={isCalendarOpen}
-              setIsOpen={setIsCalendarOpen}
-            >
-              <PopoverTrigger>
-                <IoMdCalendar size="26px" cursor="pointer" />
-              </PopoverTrigger>
-              <PopoverContent>
-                <Calendar
-                  locale="en-US"
-                  value={expiryDate}
-                  minDate={dayjs().add(1, "day").startOf("day").toDate()}
-                  onChange={(val) => {
-                    if (Array.isArray(val)) {
-                      setExpiryDate(val[1]);
-                      return;
-                    }
-                    setExpiryDate(val);
-                  }}
-                  onClickDay={() => {
-                    setIsCalendarOpen(false);
-                  }}
-                />
-              </PopoverContent>
-            </Popover>
+          <Box
+            position="absolute"
+            bottom="7px"
+            right="10px"
+            onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+          >
+            <IoMdCalendar
+              size="26px"
+              color="#6a994e"
+              style={{ cursor: "pointer" }}
+            />
           </Box>
+          {isCalendarOpen && (
+            <Box
+              position="absolute"
+              top="calc(100% + 4px)"
+              right="0"
+              zIndex="10"
+              backgroundColor="#ffffff"
+              borderRadius="$lg"
+              boxShadow="0 4px 12px rgba(0, 0, 0, 0.15)"
+              border="1px solid #6a994e"
+              maxWidth="calc(100% - 2px)"
+              overflow="hidden"
+            >
+              <Calendar
+                onChange={(value) => {
+                  setExpiryDate(value as Date);
+                  setIsCalendarOpen(false);
+                }}
+                value={expiryDate}
+                minDate={new Date()}
+                className={styles.calendar}
+              />
+            </Box>
+          )}
         </Box>
 
-        <Box width="$full" mt="$9">
+        <Box width="100%" mt={{ mobile: "$4", tablet: "$6" }}>
           <Button
             fluidWidth
             intent="tertiary"
@@ -285,6 +378,23 @@ export const GrantModal = ({ isOpen, onClose, chainName }: GrantModalProps) => {
               !selectedPermission
             }
             onClick={onGrantClick}
+            attributes={{
+              backgroundColor: "#386641",
+              color: "#f2e8cf",
+              padding: { mobile: "$4", tablet: "$5" },
+              fontSize: { mobile: "$md", tablet: "$lg" },
+              height: { mobile: "44px", tablet: "48px" },
+              _hover: {
+                backgroundColor: "#2d5234",
+              },
+              _focus: {
+                boxShadow: "0 0 0 3px rgba(56, 102, 65, 0.4)",
+              },
+              _disabled: {
+                backgroundColor: "#38664180",
+                cursor: "not-allowed",
+              },
+            }}
           >
             Grant
           </Button>

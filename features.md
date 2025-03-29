@@ -26,6 +26,7 @@ The application provides a comprehensive authorization (Authz) system for managi
 - Multiple wallet provider support
 - Address management and validation
 - Transaction signing integration
+- The Wallet component manages the chain name using a combination of a default value and local storage. When a user connects their wallet, the chain name is either retrieved from local storage or set to a default value (DEFAULT_CHAIN_NAME). This chain name is then used throughout the application.
 
 ### 3. Permission Management
 

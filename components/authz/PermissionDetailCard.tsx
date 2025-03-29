@@ -1,20 +1,20 @@
 // TODO fix type issues
 // @ts-nocheck
 
-import Link from 'next/link';
-import { Box, Button, Icon, Skeleton, Text } from '@interchain-ui/react';
+import Link from "next/link";
+import { Box, Button, Icon, Skeleton, Text } from "@interchain-ui/react";
 
-import { useValidators } from '@/hooks';
-import { permissionNameToRouteMap } from '@/configs';
-import { getAttributePairs, PrettyGrant } from '@/utils';
-import { useAuthzContext } from '@/context';
+import { useValidators } from "@/hooks";
+import { permissionNameToRouteMap } from "@/configs";
+import { getAttributePairs, PrettyGrant } from "@/utils";
+import { useAuthzContext } from "@/context";
 
 type PermissionDetailCardProps = {
-  role: 'granter' | 'grantee';
+  role: "granter" | "grantee";
   onRevoke: () => void;
   isRevoking: boolean;
   chainName: string;
-  permission: PrettyGrant['permissions'][0];
+  permission: PrettyGrant["permissions"][0];
 };
 
 export const PermissionDetailCard = ({
@@ -25,7 +25,7 @@ export const PermissionDetailCard = ({
   permission,
 }: PermissionDetailCardProps) => {
   const { name, expiration, expiry, authorization } = permission;
-  const isGranter = role === 'granter';
+  const isGranter = role === "granter";
 
   const { setPermission } = useAuthzContext();
   const { data, isLoading } = useValidators(chainName, { fetchLogos: false });
@@ -38,7 +38,10 @@ export const PermissionDetailCard = ({
       backgroundColor="$cardBg"
       borderRadius="$lg"
       width="100%"
-      height={{ mobile: 'auto', tablet: '100%' }}
+      height={{ mobile: "auto", tablet: "100%" }}
+      boxShadow="0 4px 6px rgba(0, 0, 0, 0.1)"
+      transition="transform 0.2s ease-in-out"
+      _hover={{ transform: "scale(1.02)" }}
     >
       <Box mb="$10">
         {isGranter ? (
@@ -51,6 +54,7 @@ export const PermissionDetailCard = ({
               size="sm"
               onClick={onRevoke}
               disabled={isRevoking}
+              _focus={{ boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)" }}
             >
               Revoke
             </Button>
@@ -58,7 +62,7 @@ export const PermissionDetailCard = ({
         ) : permissionNameToRouteMap[name] ? (
           <Link
             href={permissionNameToRouteMap[name]}
-            style={{ textDecoration: 'none' }}
+            style={{ textDecoration: "none" }}
           >
             <Box
               display="flex"
@@ -86,7 +90,7 @@ export const PermissionDetailCard = ({
             {...attr}
             key={attr.label}
             isLoading={
-              (attr.label === 'Allow List' || attr.label === 'Deny List') &&
+              (attr.label === "Allow List" || attr.label === "Deny List") &&
               isLoading
             }
           />
@@ -112,7 +116,7 @@ const PermissionAttribute = ({
       <Text
         fontWeight="$normal"
         fontSize="$sm"
-        attributes={{ maxWidth: '30%' }}
+        attributes={{ maxWidth: "30%" }}
       >
         {label}
       </Text>
@@ -123,7 +127,7 @@ const PermissionAttribute = ({
           fontWeight="$semibold"
           fontSize="$sm"
           textAlign="right"
-          attributes={{ maxWidth: '65%' }}
+          attributes={{ maxWidth: "65%" }}
         >
           {value}
         </Text>

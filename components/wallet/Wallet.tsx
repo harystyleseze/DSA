@@ -100,16 +100,32 @@ export function Wallet({
           maxWidth: "21rem",
           borderRadius: "$lg",
           justifyContent: "center",
-          backgroundColor: useColorModeValue("$white", "$blackAlpha500"),
-          boxShadow: useColorModeValue(
-            "0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3",
-            "0 0 2px #363636, 0 0 8px -2px #4f4f4f"
-          ),
+          backgroundColor: {
+            default: "$white",
+            _dark: "rgba(56, 102, 65, 0.1)",
+          },
+          boxShadow: {
+            default: "0 0 2px #dfdfdf, 0 0 6px -2px #d3d3d3",
+            _dark: "0 0 2px #363636, 0 0 8px -2px #4f4f4f",
+          },
+          color: {
+            default: "#386641",
+            _dark: "#f2e8cf",
+          },
         }}
       >
         {username ? <User name={username} /> : null}
         {address ? (
-          <ClipboardCopyText text={address} truncate="middle" />
+          <ClipboardCopyText
+            text={address}
+            truncate="middle"
+            attributes={{
+              color: {
+                default: "#6a994e",
+                _dark: "#a7c957",
+              },
+            }}
+          />
         ) : null}
         <Box
           my="$8"

@@ -1,9 +1,9 @@
-import { Divider } from '@interchain-ui/react';
-import { useAuthzContext } from '@/context';
-import { withServerSideRedirect } from '@/utils';
-import { Layout, LoginInfoBanner, StakingSection, Wallet } from '@/components';
+import { Divider } from "@interchain-ui/react";
+import { useAuthzContext } from "@/context";
+import { withServerSideRedirect } from "@/utils";
+import { Layout, LoginInfoBanner, StakingSection, Wallet } from "@/components";
 
-export const getServerSideProps = withServerSideRedirect({ to: '/' });
+export const getServerSideProps = withServerSideRedirect({ to: "/" });
 
 export default function Stake() {
   const { chainName, permission } = useAuthzContext();
@@ -19,11 +19,11 @@ export default function Stake() {
           {permission && (
             // @ts-ignore
             <LoginInfoBanner
-            chainName={chainName}
-            loginAddress={permission.granter}
+              chainName={chainName}
+              loginAddress={permission.granter}
             />
           )}
-           {/* @ts-ignore */}
+          {/* @ts-ignore */}
           <StakingSection chainName={chainName} />
         </>
       )}
