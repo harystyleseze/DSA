@@ -1,36 +1,4 @@
 {
-  "granterGrants": [
-    {
-      "granter": "osmo1rend6m6xjx9fdh05uvadl2aklkke7mu4sx3kaq",
-      "permission": "WithdrawDelegatorReward",
-      "expiration": "31/03/2025"
-    },
-    {
-      "granter": "osmo1rend6m6xjx9fdh05uvadl2aklkke7mu4sx3kaq",
-      "permission": "Vote",
-      "expiration": "30/04/2025"
-    },
-    {
-      "granter": "osmo1rend6m6xjx9fdh05uvadl2aklkke7mu4sx3kaq",
-      "permission": "Send",
-      "expiration": "04/04/2025"
-    },
-    {
-      "granter": "osmo1rend6m6xjx9fdh05uvadl2aklkke7mu4sx3kaq",
-      "permission": "Delegate",
-      "expiration": "05/04/2025"
-    }
-  ],
-  "granteeGrants": [
-    {
-      "grantee": "osmo1rend6m6xjx9fdh05uvadl2aklkke7mu4sx3kaq",
-      "permission": "Vote",
-      "expiration": "02/04/2025"
-    },
-    {
-      "grantee": "osmo1rend6m6xjx9fdh05uvadl2aklkke7mu4sx3kaq",
-      "permission": "Delegate",
-      "expiration": "02/04/2025"
-    }
-  ]
+  "granterGrants": [],
+  "granteeGrants": []
 }
