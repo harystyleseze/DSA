@@ -17,7 +17,7 @@ const nextConfig = {
     return [
       {
         source: "/api/chat", // The API route in your Next.js frontend
-        destination: ["https://dsa-snowy.vercel.app/api/chat"],
+        destination: "https://dsa-snowy.vercel.app/api/chat",
       },
     ];
   },
