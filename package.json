@@ -8,8 +8,8 @@
     "build:tsc": "yarn tsc -p tsconfig.json --outDir main --module commonjs",
     "clean": "rimraf ./types && rimraf ./src/codegen",
     "codegen": "node scripts/codegen.js",
-    "predev": "pip install -r secret-backend/requirements.txt",
-    "prebuild": "pip install -r secret-backend/requirements.txt"
+    "predev": "if command -v pip &>/dev/null; then pip install -r secret-backend/requirements.txt; else echo 'pip not found. Skipping Python dependency installation.'; fi",
+    "prebuild": "if command -v pip &>/dev/null; then pip install -r secret-backend/requirements.txt; else echo 'pip not found. Skipping Python dependency installation.'; fi"
   },
   "jest": {
     "preset": "ts-jest",
