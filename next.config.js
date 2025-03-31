@@ -17,7 +17,12 @@ const nextConfig = {
     return [
       {
         source: "/api/chat", // The API route in your Next.js frontend
-        destination: "http://localhost:8000/api/chat", // Your Flask backend endpoint
+        destination: [
+          "http://localhost:8000/api/chat",
+          "https://dsa-snowy.vercel.app/api/chat",
+          "https://dsa-harrison-ezes-projects.vercel.app/api/chat",
+          "https://dsa-git-main-harrison-ezes-projects.vercel.app/api/chat",
+        ],
       },
     ];
   },
