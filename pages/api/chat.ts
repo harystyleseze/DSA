@@ -9,7 +9,7 @@ export default async function handler(
     try {
       // Forward the request to the Flask backend
       const response = await axios.post(
-        "https://dsa-snowy.vercel.app/api/chat",
+        "http://localhost:8000/api/chat",
         req.body
       );
       res.status(200).json(response.data);
