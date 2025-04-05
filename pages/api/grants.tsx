@@ -13,8 +13,8 @@ export default async function handler(
   try {
     if (req.method === "GET") {
       // Fetch all granter and grantee grants
-      const granterGrants = getGranterGrants();
-      const granteeGrants = getGranteeGrants();
+      const granterGrants = await getGranterGrants();
+      const granteeGrants = await getGranteeGrants();
       return res.status(200).json({ granterGrants, granteeGrants });
     }
 
@@ -34,11 +34,8 @@ export default async function handler(
 
       // Add new granter and grantee grants
       try {
-        // Persist Granter Grants
-        granterGrants.forEach(addGranterGrant);
-
-        // Persist Grantee Grants
-        granteeGrants.forEach(addGranteeGrant);
+        await Promise.all(granterGrants.map(addGranterGrant));
+        await Promise.all(granteeGrants.map(addGranteeGrant));
 
         return res.status(201).json({ message: "Grants added successfully" });
       } catch (error) {

@@ -1,43 +1,36 @@
-import Database from "better-sqlite3";
+import mongoose from "mongoose";
 
-const db = new Database("database.sqlite");
+const uri = process.env.MONGODB_URI || " ";
 
-// Initialize tables if they don't exist
-db.exec(`
-  CREATE TABLE IF NOT EXISTS granterGrants (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    granter TEXT,
-    permission TEXT,
-    expiration TEXT
-  );
-  CREATE TABLE IF NOT EXISTS granteeGrants (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    grantee TEXT,
-    permission TEXT,
-    expiration TEXT
-  );
-`);
+mongoose.connect(uri);
 
-export const addGranterGrant = (grant: any) => {
-  const stmt = db.prepare(
-    "INSERT INTO granterGrants (granter, permission, expiration) VALUES (?, ?, ?)"
-  );
-  stmt.run(grant.granter, grant.permission, grant.expiration);
+const grantSchema = new mongoose.Schema({
+  granter: String,
+  grantee: String,
+  permission: String,
+  expiration: String,
+});
+
+// Check if models already exist to prevent OverwriteModelError
+const GranterGrant =
+  mongoose.models.GranterGrant || mongoose.model("GranterGrant", grantSchema);
+const GranteeGrant =
+  mongoose.models.GranteeGrant || mongoose.model("GranteeGrant", grantSchema);
+
+export const addGranterGrant = async (grant: any) => {
+  const newGrant = new GranterGrant(grant);
+  await newGrant.save();
 };
 
-export const getGranterGrants = () => {
-  const stmt = db.prepare("SELECT * FROM granterGrants");
-  return stmt.all();
+export const getGranterGrants = async () => {
+  return GranterGrant.find();
 };
 
-export const addGranteeGrant = (grant: any) => {
-  const stmt = db.prepare(
-    "INSERT INTO granteeGrants (grantee, permission, expiration) VALUES (?, ?, ?)"
-  );
-  stmt.run(grant.grantee, grant.permission, grant.expiration);
+export const addGranteeGrant = async (grant: any) => {
+  const newGrant = new GranteeGrant(grant);
+  await newGrant.save();
 };
 
-export const getGranteeGrants = () => {
-  const stmt = db.prepare("SELECT * FROM granteeGrants");
-  return stmt.all();
+export const getGranteeGrants = async () => {
+  return GranteeGrant.find();
 };

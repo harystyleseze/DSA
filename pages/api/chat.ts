@@ -12,16 +12,18 @@ const secretAI = new ChatSecret({
   temperature: 1.0,
 });
 
-// Create the context with database content
-const createContext = (db: any) => {
-  const granterGrants = db.granterGrants
+const createContext = async () => {
+  const granterGrants = await getGranterGrants();
+  const granteeGrants = await getGranteeGrants();
+
+  const granterGrantsText = granterGrants
     .map(
       (grant: any) =>
         `Granter: ${grant.granter}, Permission: ${grant.permission}, Expiration: ${grant.expiration}`
     )
     .join("\n");
 
-  const granteeGrants = db.granteeGrants
+  const granteeGrantsText = granteeGrants
     .map(
       (grant: any) =>
         `Grantee: ${grant.grantee}, Permission: ${grant.permission}, Expiration: ${grant.expiration}`
@@ -33,10 +35,10 @@ const createContext = (db: any) => {
     Below is the summary of the current grants:
 
     ### Granter Grants:
-    ${granterGrants}
+    ${granterGrantsText}
 
     ### Grantee Grants:
-    ${granteeGrants}
+    ${granteeGrantsText}
 
     Please note:
     - The granter assigns permissions to the grantee, such as "Withdraw Delegator Reward", "Vote", or "Send Tokens".
@@ -53,11 +55,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const { message } = req.body;
 
-    const granterGrants = getGranterGrants();
-    const granteeGrants = getGranteeGrants();
-
     // Create context with database content
-    const context = createContext({ granterGrants, granteeGrants });
+    const context = await createContext();
 
     // Add context to the chat history
     const messages = [
