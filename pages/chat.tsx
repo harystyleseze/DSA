@@ -3,8 +3,8 @@ import axios from "axios";
 import { Box, Button, Text, useColorModeValue } from "@interchain-ui/react";
 
 const ChatPage = () => {
-  const [messages, setMessages] = useState<any[]>([]); // Stores chat messages
-  const [input, setInput] = useState(""); // Stores the input message
+  const [messages, setMessages] = useState<any[]>([]); // Store chat messages
+  const [input, setInput] = useState(""); // Store the input message
   const [loading, setLoading] = useState(false); // Loading state for chat interaction
 
   const sendMessage = async () => {
@@ -18,28 +18,38 @@ const ChatPage = () => {
 
     try {
       // Send the message to the backend API
-      const response = await axios.post("/api/chat", {
-        message: input,
-      });
+      const response = await axios.post("/api/chat", { message: input });
 
-      // Log the response to ensure backend data is correct
-      console.log("Response from backend:", response.data);
+      // Check if the AI's response is undefined
+      if (!response.data || !response.data.content) {
+        console.error("AI Response is undefined");
+        const errorMessage = {
+          role: "system",
+          content: "An error occurred. Please try again later.",
+        };
+        setMessages((prevMessages) => [...prevMessages, errorMessage]);
+        return;
+      }
 
-      // Add the AI's response to the chat
-      const botMessage = { role: "system", content: response.data.content };
+      // Clean up the AI's response by removing <think> tags
+      const cleanedContent = response.data.content.replace(
+        /<think>|<\/think>/g,
+        ""
+      );
+
+      // Add the cleaned AI's response to the chat
+      const botMessage = { role: "assistant", content: cleanedContent };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error: any) {
       console.error("Error sending message to backend:", error);
 
-      // Check if error is an Axios error and extract message
+      // Handle error and add error message to chat
       const errorMessage = {
         role: "system",
         content:
           error.response?.data?.error ||
           "An error occurred. Please try again later.",
       };
-
-      // Add error message to chat
       setMessages((prevMessages) => [...prevMessages, errorMessage]);
     } finally {
       setLoading(false);
