@@ -130,9 +130,12 @@ async def chat_with_agent(user_message: UserMessage):
         print(f"Error processing request: {e}")
         raise HTTPException(status_code=500, detail="Error processing your request. Please try again later.")
 
-# Start the FastAPI app
+# Add environment variable support
+port = int(os.getenv("PORT", 8000))
+host = os.getenv("HOST", "0.0.0.0")
+
 if __name__ == "__main__":
     # Load grants data when the app starts
     load_grants_data()
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run(app, host=host, port=port)
