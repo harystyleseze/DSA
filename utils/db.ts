@@ -1,5 +1,6 @@
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
+import { Memory } from "lowdb";
 
 interface Data {
   granterGrants: any[];
@@ -7,7 +8,13 @@ interface Data {
 }
 
 const defaultData: Data = { granterGrants: [], granteeGrants: [] };
-const db = new Low<Data>(new JSONFile<Data>("db.json"), defaultData);
+
+// Use in-memory storage for serverless environments
+const adapter =
+  process.env.NODE_ENV === "production"
+    ? new Memory<Data>()
+    : new JSONFile<Data>("db.json");
+const db = new Low<Data>(adapter, defaultData);
 
 // Initialize the database
 async function initDB() {

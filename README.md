@@ -40,15 +40,10 @@ cd DSA
 yarn install
 ```
 
-3. Set up the backend environment:
+3. Run locally:
 
 ```bash
-cd secret-backend
-python -m venv venv
-source venv/bin/activate  # On Windows use: venv\Scripts\activate
-pip install -r requirements.txt
-pip install 'secret-sdk>=1.8.1'
-pip install secret-ai-sdk
+yarn dev
 ```
 
 ## Development
