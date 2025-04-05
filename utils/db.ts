@@ -1,87 +1,43 @@
-import { Low } from "lowdb";
-import { JSONFile } from "lowdb/node";
-import { Memory } from "lowdb";
+import Database from "better-sqlite3";
 
-interface Data {
-  granterGrants: any[];
-  granteeGrants: any[];
-}
+const db = new Database("database.sqlite");
 
-const defaultData: Data = { granterGrants: [], granteeGrants: [] };
-
-// Use in-memory storage for serverless environments
-const adapter =
-  process.env.NODE_ENV === "production"
-    ? new Memory<Data>()
-    : new JSONFile<Data>("db.json");
-const db = new Low<Data>(adapter, defaultData);
-
-// Initialize the database
-async function initDB() {
-  try {
-    await db.read();
-
-    // If db.data is undefined (in case of an empty db.json), initialize it with default data
-    if (!db.data) {
-      db.data = { granterGrants: [], granteeGrants: [] };
-      await db.write();
-    }
-  } catch (error) {
-    console.error("Error reading the database:", error);
-    // If reading the file fails (e.g., file doesn't exist), initialize db.data
-    db.data = { granterGrants: [], granteeGrants: [] };
-    await db.write();
-  }
-}
-
-export const addGranterGrant = async (grant: any) => {
-  await initDB();
-
-  if (!db.data) {
-    db.data = { granterGrants: [], granteeGrants: [] };
-  }
-
-  const exists = db.data.granterGrants.some(
-    (existingGrant) =>
-      existingGrant.granter === grant.granter &&
-      existingGrant.permission === grant.permission &&
-      existingGrant.expiration === grant.expiration
+// Initialize tables if they don't exist
+db.exec(`
+  CREATE TABLE IF NOT EXISTS granterGrants (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    granter TEXT,
+    permission TEXT,
+    expiration TEXT
   );
-
-  if (!exists) {
-    db.data.granterGrants.push(grant);
-    await db.write();
-  }
-};
-
-export const getGranterGrants = async () => {
-  await initDB();
-  return db.data!.granterGrants; // Since we've initialized db.data, it should be safe to access
-};
-
-export const addGranteeGrant = async (grant: any) => {
-  await initDB();
-
-  if (!db.data) {
-    db.data = { granterGrants: [], granteeGrants: [] };
-  }
-
-  const exists = db.data.granteeGrants.some(
-    (existingGrant) =>
-      existingGrant.grantee === grant.grantee &&
-      existingGrant.permission === grant.permission &&
-      existingGrant.expiration === grant.expiration
+  CREATE TABLE IF NOT EXISTS granteeGrants (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    grantee TEXT,
+    permission TEXT,
+    expiration TEXT
   );
+`);
 
-  if (!exists) {
-    db.data.granteeGrants.push(grant);
-    await db.write();
-  }
+export const addGranterGrant = (grant: any) => {
+  const stmt = db.prepare(
+    "INSERT INTO granterGrants (granter, permission, expiration) VALUES (?, ?, ?)"
+  );
+  stmt.run(grant.granter, grant.permission, grant.expiration);
 };
 
-export const getGranteeGrants = async () => {
-  await initDB();
-  return db.data!.granteeGrants; // Since we've initialized db.data, it should be safe to access
+export const getGranterGrants = () => {
+  const stmt = db.prepare("SELECT * FROM granterGrants");
+  return stmt.all();
 };
 
-initDB();
+export const addGranteeGrant = (grant: any) => {
+  const stmt = db.prepare(
+    "INSERT INTO granteeGrants (grantee, permission, expiration) VALUES (?, ?, ?)"
+  );
+  stmt.run(grant.grantee, grant.permission, grant.expiration);
+};
+
+export const getGranteeGrants = () => {
+  const stmt = db.prepare("SELECT * FROM granteeGrants");
+  return stmt.all();
+};

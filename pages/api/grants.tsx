@@ -13,8 +13,8 @@ export default async function handler(
   try {
     if (req.method === "GET") {
       // Fetch all granter and grantee grants
-      const granterGrants = await getGranterGrants();
-      const granteeGrants = await getGranteeGrants();
+      const granterGrants = getGranterGrants();
+      const granteeGrants = getGranteeGrants();
       return res.status(200).json({ granterGrants, granteeGrants });
     }
 
@@ -26,37 +26,19 @@ export default async function handler(
         console.error(
           "Invalid data structure: Expected arrays for granterGrants and granteeGrants."
         );
-        return res
-          .status(400)
-          .json({
-            message:
-              "Invalid data structure. Expected arrays for granterGrants and granteeGrants.",
-          });
+        return res.status(400).json({
+          message:
+            "Invalid data structure. Expected arrays for granterGrants and granteeGrants.",
+        });
       }
 
       // Add new granter and grantee grants
       try {
         // Persist Granter Grants
-        for (const grant of granterGrants) {
-          if (!grant.granter || !grant.permission || !grant.expiration) {
-            console.error("Missing required fields in granter grant:", grant);
-            return res
-              .status(400)
-              .json({ message: "Missing required fields in granter grant." });
-          }
-          await addGranterGrant(grant);
-        }
+        granterGrants.forEach(addGranterGrant);
 
         // Persist Grantee Grants
-        for (const grant of granteeGrants) {
-          if (!grant.grantee || !grant.permission || !grant.expiration) {
-            console.error("Missing required fields in grantee grant:", grant);
-            return res
-              .status(400)
-              .json({ message: "Missing required fields in grantee grant." });
-          }
-          await addGranteeGrant(grant);
-        }
+        granteeGrants.forEach(addGranteeGrant);
 
         return res.status(201).json({ message: "Grants added successfully" });
       } catch (error) {

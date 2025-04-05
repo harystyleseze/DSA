@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { ChatSecret } from "secretai";
 import fs from "fs";
 import path from "path";
+import { getGranterGrants, getGranteeGrants } from "../../utils/db";
 
 // Initialize SecretAI Chat
 const secretAI = new ChatSecret({
@@ -10,13 +11,6 @@ const secretAI = new ChatSecret({
   model: "deepseek-r1:70b",
   temperature: 1.0,
 });
-
-// Load database content from db.json
-const loadDatabase = () => {
-  const dbPath = path.resolve(process.cwd(), "db.json");
-  const data = fs.readFileSync(dbPath, "utf-8");
-  return JSON.parse(data);
-};
 
 // Create the context with database content
 const createContext = (db: any) => {
@@ -47,6 +41,8 @@ const createContext = (db: any) => {
     Please note:
     - The granter assigns permissions to the grantee, such as "Withdraw Delegator Reward", "Vote", or "Send Tokens".
     - The grantee, in turn, receives permissions like "Delegate" or "Vote" that are set to expire on specific dates.
+    - If the granter and grantee records are not found, notify the user to create grants or seek permission from others then ask them to click persist grants on the grant dashboard.
+    - If the first message is not about grants but greeting like "hi" or "hello", then respond with a greeting and ask them to ask about grants.
 
     Respond to any user questions based on this data, and clarify specific permissions or expiration dates only when asked.
   `;
@@ -56,8 +52,12 @@ const createContext = (db: any) => {
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const { message } = req.body;
-    const db = loadDatabase(); // Load the DB from db.json
-    const context = createContext(db); // Generate context from the DB
+
+    const granterGrants = getGranterGrants();
+    const granteeGrants = getGranteeGrants();
+
+    // Create context with database content
+    const context = createContext({ granterGrants, granteeGrants });
 
     // Add context to the chat history
     const messages = [
